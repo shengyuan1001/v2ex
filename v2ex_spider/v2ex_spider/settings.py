@@ -15,7 +15,7 @@ SPIDER_MODULES = ['v2ex_spider.spiders']
 NEWSPIDER_MODULE = 'v2ex_spider.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'v2ex_spider (+http://www.yourdomain.com)'
+USER_AGENT = 'v2ex_spider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -45,15 +45,15 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    'v2ex_spider.middlewares.V2ExSpiderSpiderMiddleware': 543,
-# }
+SPIDER_MIDDLEWARES = {
+   'v2ex_spider.middlewares.V2ExSpiderSpiderMiddleware': 543,
+}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-    'v2ex_spider.middlewares.V2ExSpiderDownloaderMiddleware': 543,
-}
+# DOWNLOADER_MIDDLEWARES = {
+#     'v2ex_spider.middlewares.V2ExSpiderDownloaderMiddleware': 543,
+# }
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html

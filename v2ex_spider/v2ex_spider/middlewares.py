@@ -4,12 +4,11 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-import csv
-import random
+import os
 
 from scrapy import signals
 
-from v2ex_spider.ua_ip import get_ua
+from v2ex_spider.send_email import SendEmail
 
 
 class V2ExSpiderSpiderMiddleware(object):
@@ -22,8 +21,8 @@ class V2ExSpiderSpiderMiddleware(object):
         # This method is used by Scrapy to create your spiders.
         s = cls()
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        """爬虫结束并发送邮件"""
-        crawler.signals.connect(s.spider_close, signal=signals.spider_opened)
+        #  爬虫结束并发送邮件
+        crawler.signals.connect(s.spider_close, signal=signals.spider_closed)
         return s
 
     def process_spider_input(self, response, spider):
@@ -62,16 +61,10 @@ class V2ExSpiderSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
     def spider_close(self, spider):
-        with open('v2ex.csv',  encoding='utf-8')as f:
-            """映射字典"""
-            contents = csv.DictReader(f, ['title', 'text'])
-            text = []
-            for content in contents:
-                if content['title'] != 'title' and  content['text'] != 'text':
-                    text.append(content['title'])
-                    text.append((content['text']))
-            text = ''.join(text)
-            print(text)
+        email = SendEmail()
+        email.sendemail()
+        if os.path.isfile("v2ex.csv"):
+            os.remove('v2ex.csv')
 
 
 class V2ExSpiderDownloaderMiddleware(object):
@@ -86,18 +79,10 @@ class V2ExSpiderDownloaderMiddleware(object):
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
 
-    def get_ip(self):
-        with open('ips.txt', 'r') as f:
-            ips = f.read()
-        ips = ips.split("\n")
-        ips.remove('')
-        if ips:
-            return random.choice(ips)
-
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
         # middleware.
-        request.headers['User-Agent'] = get_ua()
+
         # Must either:
         # - return None: continue processing this request
         # - or return a Response object

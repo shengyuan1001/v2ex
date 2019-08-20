@@ -19,7 +19,7 @@ class V2exSpider(scrapy.Spider):
 
     def new_parse(self, response):
         data = {}
-        """设置标题及内容样式"""
+        #  设置标题及内容样式(邮件以html样式发送)
         title = "<h3>{}</h3>".format(response.xpath('.//h1/text()').get())
         text = "<span>{}</span>".format(''.join(response.css('.topic_content p::text').extract()))
         data['title'] = title
