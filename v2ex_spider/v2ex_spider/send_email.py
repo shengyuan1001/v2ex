@@ -1,5 +1,6 @@
 #
 import csv
+import datetime
 
 __author__ = 'bob'
 __date__ = '2019/8/20 9:38'
@@ -19,12 +20,14 @@ class SendEmail(object):
         recevier: 接收方(多方)-----》列表
         title: 邮件标题
         text: 邮件正文
+        tiem: 时间
         """
+        time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         user = '17602915538@163.com'
         pwd = 'bbb17602915538'
         sender = '17602915538@163.com'
         recevier = ['879163988@qq.com']
-        title = '今日信息'
+        title = '今日信息   ' + time + '    v2ex tops'
         text = []
         with open('v2ex.csv', encoding='utf-8')as f:
             # 映射字典
@@ -63,3 +66,4 @@ class SendEmail(object):
             print("发送成功")
         except smtplib.SMTPException as e:
             print(e)
+
