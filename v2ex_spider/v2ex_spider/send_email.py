@@ -66,4 +66,3 @@ class SendEmail(object):
             print("发送成功")
         except smtplib.SMTPException as e:
             print(e)
-
